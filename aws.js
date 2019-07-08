@@ -30,6 +30,26 @@ module.exports = function(RED) {
         }
     });
 
+    function AmazonS3SignerNode(n) {
+        RED.nodes.createNode(this,n);
+        this.awsConfig = RED.nodes.getNode(n.aws);
+        var node = this;
+        var AWS = this.awsConfig ? this.awsConfig.AWS : null;
+
+        if (!AWS) {
+            node.warn(RED._("aws.warn.missing-credentials"));
+            return;
+        }
+        var s3 = new AWS.S3();
+
+        node.on("input", function(msg) {
+            msg.url = s3.getSignedUrl('getObject', msg.payload)
+            node.send(msg)
+        })
+    }
+
+    RED.nodes.registerType("minio-signer",AmazonS3SignerNode);
+
     function AmazonS3InNode(n) {
         RED.nodes.createNode(this,n);
         this.awsConfig = RED.nodes.getNode(n.aws);

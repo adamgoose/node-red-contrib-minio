@@ -42,6 +42,33 @@
 </script>
 
 <script type="text/javascript">
+    RED.nodes.registerType('minio-signer',{
+        category: 'storage-input',
+        color:"#f7d591",
+        defaults: {
+            aws: {type:"minio-config",required:true}
+        },
+        inputs:1,
+        outputs:1,
+        icon: "amazon.png",
+        label: function() { 
+            return this.name || "s3 signer";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="minio-signer">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="aws.label.name"></span></label>
+        <input type="text" id="node-input-name" data-i18n="[placeholder]aws.placeholder.name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-aws"><i class="fa fa-user"></i> <span data-i18n="aws.label.aws"></span></label>
+        <input type="text" id="node-input-aws">
+    </div>
+</script>
+
+<script type="text/javascript">
     RED.nodes.registerType('amazon s3 in',{
         category: 'storage-input',
         color:"#f7d591",
